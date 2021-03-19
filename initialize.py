@@ -105,6 +105,9 @@ class Initialize():
     def get_reward(self):
         return self.reward
 
+    def get_Q(self):
+        return self.Q
+
     def get_number_of_states(self):
         """This function calculates the total number of rows of .csv file and returns it.
         """

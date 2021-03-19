@@ -31,7 +31,7 @@ class Qlearning():
         self.data = []
         self.windowHours_file = 'usefulData/lineJ_windowHours.csv'
         self.reward = {}
-        self.Q = torch.zeros([self.number_of_states, self.number_of_actions])
+        self.Q = torch.empty([self.number_of_states, self.number_of_actions])
            
     def validate_datetimes(self, d1=None, d2=None):
         validate = 0
@@ -63,12 +63,14 @@ class Qlearning():
         self.number_of_states = self.initialize_obj.get_number_of_states()
         self.number_of_actions = self.initialize_obj.get_number_of_actions()
         self.reward = self.initialize_obj.get_reward()
+        self.Q = self.initialize_obj.get_Q()
     
-    """
-    This function is the primary function of the program, it calls the other functions
-    in the right order
-    """
+
     def getResult(self, d1=None,d2=None):
+        """
+        This function is the primary function of the program, it calls the other functions
+        in the right order
+        """
         self.validate_datetimes(self)
         self.call_initialize()
         # Define Total number of actions
