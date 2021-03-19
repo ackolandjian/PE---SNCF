@@ -14,6 +14,7 @@ import csv
 import pandas as pd
 import json
 import datetime
+import torch
 
 class Initialize():
     """This is the base class inherited by the subclass InitializeVariables for 
@@ -30,6 +31,7 @@ class Initialize():
         self.reward_QS = {}
         self.reward_RT = {}
         self.reward = {}
+        self.Q = torch.empty([self.number_of_states, self.number_of_actions])
         
     def createFileWindowHours(self):
         """This function creates a .csv file containing all trains during a time slot d1-d2
@@ -40,7 +42,6 @@ class Initialize():
             trains_J = json.load(J)
         # combine all ref ids: origin and destination
         for x in trains_J:
-            print(x['nomCourse'])
             if int(x['nomCourse']) % 2 != 0:
                 origineUtcHoraire = datetime.datetime.strptime(x["origineUtcHoraire"], '%Y-%m-%dT%H:%M:%S.%fZ')
                 destinationUtcHoraire = datetime.datetime.strptime(x["destinationUtcHoraire"], '%Y-%m-%dT%H:%M:%S.%fZ')
@@ -59,22 +60,48 @@ class Initialize():
     
         
     def set_reward(self):
-        self.reward_RT["P"] = -1.30 #reward on RT if stop is skipped
+        """ This function sets all the rewards: reward_QS and reward_RT and return the
+        total rewards.
+        """
+        self.reward_RT["P"] = -1.30 # reward on RT if stop is skipped
+        self.reward_QS["noP"] = 0 # 0 reward if stop is not skipped
         
-        # self.reward_QS["P"] dict avec les ids des stations et leur flux 
-        
-        self.reward["noP"] = 0 # noP pour les deux rewards
-        # compare csv ref values and find their attributes
+        # Find the waiting time per station by looking at refs
         with open('usefulData/WT_from_PSL.csv') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             next(csv_reader)
             for row in csv_reader:
-                self.reward[row[0]]=float(row[2])
+                self.reward_QS[row[0]]=float(row[2])
         
-        for key in self.reward:
-            self.reward[key] = self.reward[key] + self.reward_RT["P"]
-            print(key, "corresponds to:", self.reward[key])
+        # Check the time window and find the normalized flow per station
+        with open('OD/J_normalized.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader)
+            for row in csv_reader:
+                t1,t2= self.get_t1_t2(row[0])
+                ref = row[1]
+                flow = row[4]
+                if (self.d1.time() <= t1 <= self.d2.time()) and (self.d1.time() <= t2 <= self.d2.time()):
+                    try:
+                        self.reward_QS[ref] = self.reward_QS[ref] * float(flow)     
+                    except:
+                        pass
+                    
+        # Calculate the total reward
+        for key in self.reward_QS:
+            self.reward[key] = self.reward_QS[key] + self.reward_RT["P"]
         
+        
+    def get_t1_t2(self,time_margin):
+        """This function takes the whole time margin and split them into two: t1 and t2.
+        It returns t1 & t2 as a time.
+        """
+        t1 = time_margin[3:11]
+        t2 = time_margin[15:23]
+        t1 = datetime.datetime.strptime(t1, '%H:%M:%S').time()
+        t2 = datetime.datetime.strptime(t2, '%H:%M:%S').time()
+        return t1,t2
+    
     def get_reward(self):
         return self.reward
 
@@ -85,12 +112,14 @@ class Initialize():
         reader = csv.reader(file_content)
         return (len(list(reader)) - 1)
     
+    def get_number_of_actions(self):
+        return self.number_of_actions
         
     def set_variables(self):
         """"This method...
         """
-        # Create the file .csv containing all trains during a time slot d1-d2
         self.createFileWindowHours()
         self.number_of_states = self.get_number_of_states()
+        self.number_of_actions = 1
         self.set_reward()
-        #print(self.number_of_states)
+        self.Q = torch.zeros([self.number_of_states, self.number_of_actions])

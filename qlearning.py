@@ -61,8 +61,8 @@ class Qlearning():
         self.initialize_obj = initialize.Initialize(self.d1, self.d2)
         self.initialize_obj.set_variables()
         self.number_of_states = self.initialize_obj.get_number_of_states()
+        self.number_of_actions = self.initialize_obj.get_number_of_actions()
         self.reward = self.initialize_obj.get_reward()
-        print(self.number_of_states)
     
     """
     This function is the primary function of the program, it calls the other functions
