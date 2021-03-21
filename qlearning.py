@@ -28,7 +28,7 @@ class Qlearning():
         self.d2 = d2
         self.number_of_actions = 0
         self.number_of_states = 0
-        self.data = []
+        self.initial_state={}
         self.windowHours_file = 'usefulData/lineJ_windowHours.csv'
         self.reward = {}
         self.Q = torch.empty([self.number_of_states, self.number_of_actions])
@@ -52,6 +52,14 @@ class Qlearning():
                 validate = 1
         if validate == 1:
             self.validate_datetimes()
+
+    def set_initial_state(self):
+        """This function sets the initial state (train, station)
+        """
+        file_content = open(self.windowHours_file)
+        reader = csv.reader(file_content)
+        self.initial_state[reader[1][0]]=reader[1][1]
+
     
     def call_initialize(self):
         '''Initializes the class object, calls initialize method
@@ -64,6 +72,7 @@ class Qlearning():
         self.number_of_actions = self.initialize_obj.get_number_of_actions()
         self.reward = self.initialize_obj.get_reward()
         self.Q = self.initialize_obj.get_Q()
+        self.initial_state = self.set_initial_state()
     
 
     def getResult(self, d1=None,d2=None):
@@ -75,4 +84,18 @@ class Qlearning():
         self.call_initialize()
         # Define Total number of actions
         self.number_of_actions = 1
-    
+
+       
+    def run_qlearning(self, learning_rate=0.2, discount_rate=0.8, egreedy_init=0.7, egreedy_final=0.1):
+        """
+        This function run the Q-learning algorithm once the initializations have been done
+        
+        Args:
+            learning_rate: float, factor to balance the ratio of action taken based on past
+                            experience to current situation
+            discount_rate: float, discount on reward
+            egreedy: float, start with 70% random actions to explore the environment
+            egreedy_final: float
+        """
+
+        nb_episodes, steps_total, rewards_total, egreedy_total = 30, [], [], []

@@ -26,7 +26,6 @@ class Initialize():
         self.d2 = d2
         self.number_of_actions = 0
         self.number_of_states = 0
-        self.data = []
         self.windowHours_file = 'usefulData/lineJ_windowHours.csv'
         self.reward_QS = {}
         self.reward_RT = {}
