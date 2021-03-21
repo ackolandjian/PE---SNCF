@@ -18,6 +18,7 @@ import json
 import csv
 import initialize
 import torch
+import numpy as np
 
 class Qlearning():
     """ This class ... 
@@ -32,6 +33,12 @@ class Qlearning():
         self.windowHours_file = 'usefulData/lineJ_windowHours.csv'
         self.reward = {}
         self.Q = torch.empty([self.number_of_states, self.number_of_actions])
+        self.learning_rate = 0.2
+        self.discount_rate = 0.8
+        self.epsilon = 0.7
+        self.epsilon_min = 0.1
+        self.epsilon_decay = 0.995
+        self.nb_episodes = 30
            
     def validate_datetimes(self, d1=None, d2=None):
         validate = 0
@@ -86,16 +93,17 @@ class Qlearning():
         self.number_of_actions = 1
 
        
-    def run_qlearning(self, learning_rate=0.2, discount_rate=0.8, egreedy_init=0.7, egreedy_final=0.1):
+    def run_qlearning(self):
         """
         This function run the Q-learning algorithm once the initializations have been done
-        
-        Args:
-            learning_rate: float, factor to balance the ratio of action taken based on past
-                            experience to current situation
-            discount_rate: float, discount on reward
-            egreedy: float, start with 70% random actions to explore the environment
-            egreedy_final: float
         """
+        cumul_reward_list, actions_list, states_list = [], [], []
 
-        nb_episodes, steps_total, rewards_total, egreedy_total = 30, [], [], []
+        for i in range(self.nb_episodes):
+            actions = []
+            s = self.initial_state
+            states = [s]
+            cumul_reward = 0
+            done = False
+
+            

@@ -14,7 +14,7 @@ import csv
 import pandas as pd
 import json
 import datetime
-import torch
+import numpy as np
 
 class Initialize():
     """This is the base class inherited by the subclass InitializeVariables for 
@@ -30,7 +30,7 @@ class Initialize():
         self.reward_QS = {}
         self.reward_RT = {}
         self.reward = {}
-        self.Q = torch.empty([self.number_of_states, self.number_of_actions])
+        self.Q = np.zeros(self.number_of_states, self.number_of_actions)
         
     def createFileWindowHours(self):
         """This function creates a .csv file containing all trains during a time slot d1-d2
@@ -124,4 +124,4 @@ class Initialize():
         self.number_of_states = self.get_number_of_states()
         self.number_of_actions = 1
         self.set_reward()
-        self.Q = torch.zeros([self.number_of_states, self.number_of_actions])
+        self.Q = np.zeros(self.number_of_states, self.number_of_actions)
