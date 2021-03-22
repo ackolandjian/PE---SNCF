@@ -91,6 +91,7 @@ class Initialize():
         # Calculate the total reward
         for key in self.reward_QS:
             self.reward[key] = self.reward_QS[key] + self.reward_RT["P"]
+        self.reward['noP'] = 0
         
         
     def get_t1_t2(self,time_margin):

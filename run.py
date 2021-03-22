@@ -15,9 +15,11 @@ import sys
 def writetofile(d1,d2):
     Qlearning_obj = qlearning.Qlearning(d1,d2)
     Qlearning_obj.getResult()
-    # print(Qlearning_obj.get_ind(130911, 'PR/0087-415885-00'))
-    print(Qlearning_obj.reward.values())
-    # Qlearning_obj.run_qlearning()
+    actions_list, cumul_reward_list, Q_tables = Qlearning_obj.run_qlearning()
+
+    print("Actions: ", actions_list)
+    print("Cumul_reward: ", cumul_reward_list)
+    # print("Q_tables: ", Q_tables)
 
 if __name__ == '__main__':
     try:
