@@ -14,7 +14,7 @@ import csv
 import pandas as pd
 import json
 import datetime
-import torch
+import numpy as np
 
 class Initialize():
     """This is the base class inherited by the subclass InitializeVariables for 
@@ -26,12 +26,13 @@ class Initialize():
         self.d2 = d2
         self.number_of_actions = 0
         self.number_of_states = 0
-        self.data = []
+        self.data= []
         self.windowHours_file = 'usefulData/lineJ_windowHours.csv'
         self.reward_QS = {}
         self.reward_RT = {}
         self.reward = {}
-        self.Q = torch.empty([self.number_of_states, self.number_of_actions])
+        self.Q = np.empty([self.number_of_states, self.number_of_actions])
+        self.initial_state={}
         
     def createFileWindowHours(self):
         """This function creates a .csv file containing all trains during a time slot d1-d2
@@ -90,6 +91,7 @@ class Initialize():
         # Calculate the total reward
         for key in self.reward_QS:
             self.reward[key] = self.reward_QS[key] + self.reward_RT["P"]
+        self.reward['noP'] = 0
         
         
     def get_t1_t2(self,time_margin):
@@ -117,12 +119,22 @@ class Initialize():
     
     def get_number_of_actions(self):
         return self.number_of_actions
+
+    def get_initial_state(self):
+        reader = pd.read_csv(self.windowHours_file)
+        row=0
+        while reader.iloc[row,1] != 'PR/0087-384008-00':
+            row+=1
+        self.initial_state[reader.iloc[row,0]] = reader.iloc[row,1]
+        return self.initial_state
         
     def set_variables(self):
         """"This method...
         """
         self.createFileWindowHours()
+        self.initial_state = self.get_initial_state()
         self.number_of_states = self.get_number_of_states()
         self.number_of_actions = 1
         self.set_reward()
-        self.Q = torch.zeros([self.number_of_states, self.number_of_actions])
+        self.Q = np.zeros([self.number_of_states, self.number_of_actions])
+

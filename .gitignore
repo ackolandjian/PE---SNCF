@@ -1,0 +1,16 @@
+usefulData/act_regul_lineJ_reduced.json
+usefulData/act_regul_lineJ.json
+usefulData/J_times.csv
+usefulData/J_times.json
+usefulData/J_waiting_times.json
+usefulData/lineJ_Preprocessed.json
+usefulData/lineJ_StopRefAndLibelle_reduced.csv
+usefulData/lineJ_StopRefAndLibelle.csv
+usefulData/lineJ_windowHours.csv
+usefulData/lineJ.json
+usefulData/pdt_J.csv
+usefulData/pdt_J.json
+usefulData/trains_J_from_PSL.json
+usefulData/trains_J_to_PSL.json
+usefulData/WT_from_PSL.csv
+usefulData/WT_to_PSL.csv
