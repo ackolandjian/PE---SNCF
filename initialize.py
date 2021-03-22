@@ -123,7 +123,7 @@ class Initialize():
     def get_initial_state(self):
         reader = pd.read_csv(self.windowHours_file)
         row=0
-        while reader.iloc[row,2] == reader.iloc[row,3]:
+        while reader.iloc[row,1] != 'PR/0087-384008-00':
             row+=1
         self.initial_state[reader.iloc[row,0]] = reader.iloc[row,1]
         return self.initial_state

@@ -18,7 +18,7 @@ def writetofile(d1,d2):
     actions_list, cumul_reward_list, Q_tables = Qlearning_obj.run_qlearning()
 
     print("Actions: ", actions_list)
-    print("Cumul_reward: ", cumul_reward_list)
+    # print("Cumul_reward: ", cumul_reward_list)
     # print("Q_tables: ", Q_tables)
 
 if __name__ == '__main__':

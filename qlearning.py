@@ -38,7 +38,7 @@ class Qlearning():
         self.epsilon = 0.7
         self.epsilon_min = 0.1
         self.epsilon_decay = 0.995
-        self.nb_episodes = 15
+        self.nb_episodes = 50
         self.initial_delay = 30
         self.Q_previous = 0
         self.count_skip = 0
@@ -159,11 +159,11 @@ class Qlearning():
             index_initial_state = self.get_ind(list(initial_state.keys())[0], initial_state[list(initial_state.keys())[0]])
             Q = self.Q[index_initial_state:]
 
-            proba = random.random()
+            proba = random.uniform(-1,1)
             current_state = self.get_state(index_initial_state+1)[0]
 
             if proba<=0:
-                Q[0] = reward[initial_state[list(initial_state.keys())[0]]]
+                Q[0] = self.reward[initial_state[list(initial_state.keys())[0]]]
             else:
                 Q[0]=0
 
@@ -193,15 +193,19 @@ class Qlearning():
                 if x<=self.epsilon:
                     action = self.randomAction() # Return 0 for stop, 1 for skip
                     reward = self.get_reward(station) # Get reward with ref station
-                    # if action == 1:
-                    #     self.count_skip+=1
+                    
                 else:
                     action, reward = self.getMaxValueAction(station) #return (0,0) for stop, (1,reward[station]) for skip
                 
+                if self.epsilon > self.epsilon_min:
+                    self.epsilon = self.epsilon_decay
+                
                 if action == 1:
                     self.count_skip+=1
+                else:
+                    reward = 0
                 
-                actions.append(action)
+                actions.append([current_state, action])
 
                 if reward<0:
                     reward = -reward
@@ -210,7 +214,7 @@ class Qlearning():
                 Q[ind] = reward
                 self.updateQvalues(Q[ind], reward)
                 self.Q_previous = Q[ind]
-                current_state, train, station = self.get_state(ind+1)
+                current_state = self.get_state(ind+1)[0]
       
             actions_list.append(actions)
             cumul_reward_list.append(cumul_reward)
