@@ -15,6 +15,9 @@ import sys
 def writetofile(d1,d2):
     Qlearning_obj = qlearning.Qlearning(d1,d2)
     Qlearning_obj.getResult()
+    # print(Qlearning_obj.get_ind(130911, 'PR/0087-415885-00'))
+    print(Qlearning_obj.reward.values())
+    # Qlearning_obj.run_qlearning()
 
 if __name__ == '__main__':
     try:
