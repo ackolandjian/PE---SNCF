@@ -31,7 +31,7 @@ def visualize_cumul_reward(nb_episodes):
     y=df.iloc[:,0]
     plt.scatter(x, y, color = 'blue', marker = 'D', s = 10)
     plt.xlabel('Number of episodes')
-    plt.ylabel('Cumulated Reward')
+    plt.ylabel('Cumulative Reward')
     plt.savefig('Figures/Cumul_reward_'+str(nb_episodes)+'.png', dpi = 1200)
     # plt.show()
 
@@ -54,9 +54,9 @@ def visualize_qtable(n):
 
 
 def main():
-    epsilon = find_longest_epsilon_list(50)
-    visualize_epsilon(epsilon, 50)
-    visualize_cumul_reward(50)
-    visualize_qtable(50)
+    epsilon = find_longest_epsilon_list(100)
+    visualize_epsilon(epsilon, 100)
+    visualize_cumul_reward(100)
+    visualize_qtable(100)
 
 main()
