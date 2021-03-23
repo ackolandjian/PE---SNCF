@@ -3,8 +3,8 @@
 @authors: Anna Christiane and Clarisse
 """
 
-# This program...
-# ...
+# This program uses the Q-learning approach for train rescheduling. 
+# It prints the cumulated rewards and the Q-table.
 
 # Run this program from the command line as
 # $ python3 run.py
