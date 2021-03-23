@@ -7,40 +7,34 @@ Authors:
  - Clarisse Pouillery
  
 # 🎯 Goal
-This program counts unique words from an English text file, treating hyphen and apostrophe 
-as part of the word. It prints the ten most frequent words and mentions the number of 
-occurrences.
+This program uses the Q-learning approach for train rescheduling. 
+At the end, it prints the cumulated rewards and the obtained Q-table.
 
 # 📝 Description 
-It takes the content of the text file passed and produces a dictionary
-containing the word as a key and the individual word count as a value.
+It takes the two datetimes passed by the user and runs the Q-learning
+algorithm during the given time window.
+
 
 The output is in the format:
 
 ```bash
-and (514)
-the (513)
-i (446)
-to (324)
-a (310)
-of (295)
-my (288)
-you (211)
-that (188)
-this (185)
+bla bla bla
 ```
 
 # 💻 Software Development
 ### File Hierarchy
 ```
-wordCount
+Qlearning
 ├── run.py
-├── wordcount.py
-├── processtext.py
-├── Tempest.txt
-├── img
-│ ├── logo.png
-│ └── expected-output.png
+├── qlearning.py
+├── initialize.py
+├── visualization.txt
+├── usefulData
+│ ├── lineJ_windowHours.csv
+│ ├── WT_from_PSL.csv
+│ └── trains_J_from_PSL.json
+├── OD
+│ └── J_normalized.csv
 │ 
 └── README.md
 ```
@@ -59,20 +53,16 @@ wordCount
 
 # ⚠️ Note to Users
 
-There are special cases which are probably covered in this program.
-
-For example: any word with an apostrophe (like "Fred's") is counted as a part of the word (i.e. it is considered as "Fred's" and not "Fred") whereas different forms of the same word (like "fly", "flying", "flew") count as different words.
-Another example: any word containing a hyphen (like "you-") is counted as a part of the word (i.e. it is considered as "you-" and not "you").
 
 # ❓ How To Use
 
 * 🏃 Execute run.py
 ```bash
-$ python3 run.py <input file>
+$ python3 run.py <datetime 1> <datetime 2>
 ```
 In our case:
 ```bash
-$ python3 run.py Tempest.txt
+$ python3 run.py 2020-02-13T10:00:00.000Z 2020-02-13T11:30:00.000Z
 ```
 * 🏁 Expected output
 
