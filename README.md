@@ -1,6 +1,6 @@
 # Using Q-learning algorithm for train rescheduling
 
-[![](./img/logo.png)](https://)
+[![](./img/logo.png)](https://www.sncf.com/fr)
 
 Authors:
  - Anna Christina Kolandjian
@@ -50,6 +50,7 @@ Qlearning
 - initialize.py:
    - It takes the two datetimes and creates a file windowHours containing all information about trains, stations, time slots.
    - It produces a reward dictionary with stations as keys and rewards as values.
+   - It initializes the Q-table as an empty numpy array.
 - visualization.py:
    - It visualizes the minimum epsilon obtained for each episode. 
 
