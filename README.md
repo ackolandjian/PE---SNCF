@@ -41,15 +41,15 @@ Qlearning
 ### Development
 
 - run.py: 
-   - Takes the input file path, if it's given by the user in the command, else asks for an input file path.
-   - Calls the primary method of wordcount.py: get.result() 
-- wordcount.py:
-   - Once its primary method get.result() is called, it validates the file path (if it's not valid, it asks for a new one). 
-   - It splits the whole content of the text file by empty spaces and return it as a list of strings.
-   - Calls the processtext.py method get.dict() to get the dictionary.
-- processtext.py:
-   - It takes the content of the file (list of strings) passed and produces a dictionary containing words as keys and individual word counts as values.
-   - The dictionary is returned to the caller (wordcount.py).
+   - Takes the input datetimes, if they were given by the user in the command, else asks for two proper datetimes.
+   - Calls the primary method of initialize.py: getResult() 
+- qlearning.py:
+   - Once its primary method getResult() is called, it validates the datetimes (if they're not valid, it asks for new ones).
+   - Calls the initialize.py method set_variables() to initialize all variables and parameters.
+   - It runs the algorithm.
+- initialize.py:
+   - It takes the two datetimes and creates a file windowHours containing all information about trains, stations, time slots.
+   - It produces a reward dictionary with stations as keys and rewards as values.
 
 # ⚠️ Note to Users
 
