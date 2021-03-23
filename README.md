@@ -50,6 +50,8 @@ Qlearning
 - initialize.py:
    - It takes the two datetimes and creates a file windowHours containing all information about trains, stations, time slots.
    - It produces a reward dictionary with stations as keys and rewards as values.
+- visualization.py:
+   - It visualizes the minimum epsilon obtained for each episode. 
 
 # ⚠️ Note to Users
 
