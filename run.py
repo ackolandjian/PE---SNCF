@@ -16,7 +16,7 @@ import visualization
 def runTheProgram(d1,d2):
     Qlearning_obj = qlearning.Qlearning(d1,d2)
     actions_list, cumul_reward_list, Q_tables, epsilon_values = Qlearning_obj.getResult()
-    # visualization.visualize(epsilon_values, Qlearning_obj.nb_episodes)
+    visualization.visualize(epsilon_values, Qlearning_obj.nb_episodes)
 
 if __name__ == '__main__':
     try:

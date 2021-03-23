@@ -252,7 +252,7 @@ class Qlearning():
         # runQlearning here
         actions_list, cumul_reward_list, Q_tables, epsilon_values = self.run_qlearning()
         # print("Actions: ", actions_list)
-        # print("Epsilon:", epsilon_values)
+        print("Epsilon:", epsilon_values)
         return actions_list, cumul_reward_list, Q_tables, epsilon_values
 
 
