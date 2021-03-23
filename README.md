@@ -1,7 +1,6 @@
 # Using Q-learning algorithm for train rescheduling
 
-[![](./logo.png)](https://www.sncf.com/fr=200)
-<img src="logo.png" width="100" />
+<img src="logo.png" width="100" href="https://www.sncf.com/fr" />
 
 Authors:
  - Anna Christina Kolandjian
