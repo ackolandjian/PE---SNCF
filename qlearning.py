@@ -14,6 +14,8 @@ import json
 import csv
 import initialize
 import random
+import pandas as pd
+import numpy as np
 
 class Qlearning():
     """ This class will call the initialize.py methods and print the obtained result.
@@ -32,11 +34,13 @@ class Qlearning():
         self.discount_rate = 0.8
         self.epsilon = 0.7
         self.epsilon_min = 0.1
-        self.epsilon_decay = 0.995
-        self.nb_episodes = 50
+        self.epsilon_decay = 0.9
+        self.nb_episodes = 10
         self.initial_delay = 30
         self.Q_previous = 0
         self.count_skip = 0
+        self.first_train_appearance = 0
+        self.current_state = {}
            
     def validate_datetimes(self, d1=None, d2=None):
         validate = 0
@@ -74,10 +78,16 @@ class Qlearning():
 
     def get_ind(self, nomCourse, ref):
         df = pd.read_csv(self.windowHours_file)
-        count = 0
-        while df['nomCourse'].iloc[count] != nomCourse and df['ref'].iloc[count] != ref:
-            count+=1
-        return count
+        for i in range(len(df)):
+            if df['nomCourse'].iloc[i] == nomCourse and df['ref'].iloc[i] == ref:
+                return i
+
+    def get_next_PSL(self, ind):
+        df= pd.read_csv(self.windowHours_file)
+        for i in range(ind, len(df)+1):
+            if df['ref'].iloc[i] == 'PR/0087-384008-00':
+                return i
+
 
     def get_current_state_ind(self, current_state):
         train, station = list(current_state.keys())[0], s[list(current_state.keys())[0]]
@@ -117,7 +127,11 @@ class Qlearning():
         return np.random.randint(2)
 
     def getMaxValueAction(self, station):
-        reward_if_P = self.get_reward(station)
+        try:
+            reward_if_P = self.get_reward(station)
+        except:
+            reward_if_P = 0
+
         reward_if_noP = self.get_reward("noP")
 
         if reward_if_P<=1:
@@ -134,17 +148,21 @@ class Qlearning():
         """
         This function runs the Q-learning algorithm once the initializations have been done
         """
-        cumul_reward_list, actions_list, Q_tables = [], [], []
+        cumul_reward_list, actions_list, Q_tables, epsilon_values = [], [], [], []
 
         for i in range(self.nb_episodes):
-            actions, cumul_reward = [], 0
+            actions, cumul_reward, epsilons = [], 0, []
+
+            self.epsilon = 0.7
 
             initial_state = self.initial_state
             index_initial_state = self.get_ind(list(initial_state.keys())[0], initial_state[list(initial_state.keys())[0]])
+            self.first_train_appearance = index_initial_state
+    
             Q = self.Q[index_initial_state:]
 
             proba = random.uniform(-1,1)
-            current_state = self.get_state(index_initial_state+1)[0]
+            self.current_state = self.get_state(index_initial_state+1)[0]
 
             if proba<=0:
                 Q[0] = self.reward[initial_state[list(initial_state.keys())[0]]]
@@ -152,59 +170,73 @@ class Qlearning():
                 Q[0]=0
 
             self.Q_previous = Q[0]
-            train_initial = list(current_state.keys())[0]
+            train_initial = list(self.current_state.keys())[0]
             nb_stations = self.get_nb_row(train_initial)
 
             while cumul_reward<self.initial_delay:
-                train, station = list(current_state.keys())[0], current_state[list(current_state.keys())[0]]
-                ind = self.get_ind(train, station)-index_initial_state
+                train, station = list(self.current_state.keys())[0], self.current_state[list(self.current_state.keys())[0]]
+                ind = self.get_ind(train, station)
 
                 # If we have changed train ie the current train reached it arrival station
                 if train_initial!=train:
                     train_initial, nb_stations = self.reset_function(Q, train)
+                    self.first_train_appearance = self.get_ind(train,station)
 
                 # If the limit of the number of stations to delete has been reached,
                 # we can't do any other action on this train so we take the next train.
                 # If the number of stations served by a train are limited,
                 # we can't remove stations so we considered the next train
                 elif nb_stations<=6 or self.count_skip>=int(nb_stations/2):
-                    last_ind_before_PSL = ind + nb_stations -1
-                    current_state, train, station = self.get_state(last_ind_before_PSL+2)
-                    # train, station = list(current_state.keys())[0], current_state[list(current_state.keys())[0]]
+                    last_ind_before_PSL = self.get_next_PSL(ind)-1
+                    for j in range(ind, last_ind_before_PSL+1):
+                        self.current_state = self.get_state(j)[0]
+                        actions.append([self.current_state, 0])
+                    self.current_state, train, station = self.get_state(last_ind_before_PSL+2)
+                    self.first_train_appearance = self.get_ind(self.get_state(last_ind_before_PSL+1)[1],self.get_state(last_ind_before_PSL+1)[2])
                     train_initial, nb_stations = self.reset_function(Q, train)
+                    ind = self.get_ind(train, station)
+                
                  
                 x=random.random()
+                epsilons.append(self.epsilon)
                 if x<=self.epsilon:
                     action = self.randomAction() # Return 0 for stop, 1 for skip
-                    reward = self.get_reward(station) # Get reward with ref station
+                    try:
+                        reward = self.get_reward(station) # Get reward with ref station
+                    except:
+                        reward=0
                     
                 else:
                     action, reward = self.getMaxValueAction(station) #return (0,0) for stop, (1,reward[station]) for skip
-                
+
                 if self.epsilon > self.epsilon_min:
-                    self.epsilon = self.epsilon_decay
+                    self.epsilon = self.epsilon*self.epsilon_decay
                 
                 if action == 1:
                     self.count_skip+=1
                 else:
                     reward = 0
                 
-                actions.append([current_state, action])
+                actions.append([self.current_state, action])
 
                 if reward<0:
                     reward = -reward
                 cumul_reward+=reward
 
-                Q[ind] = reward
-                self.updateQvalues(Q[ind], reward)
-                self.Q_previous = Q[ind]
-                current_state = self.get_state(ind+1)[0]
+                Q[ind-index_initial_state] = reward
+                self.updateQvalues(Q[ind-index_initial_state], reward)
+                self.Q_previous = Q[ind-index_initial_state]
+                if ind == len(self.Q)-1:
+                    break
+                else:
+                    self.current_state = self.get_state(ind+1)[0]
       
             actions_list.append(actions)
             cumul_reward_list.append(cumul_reward)
             Q_tables.append(Q)
+            epsilon_values.append(epsilons)
 
-        return actions_list, cumul_reward_list, Q_tables
+        return actions_list, cumul_reward_list, Q_tables, epsilon_values
 
     def getResult(self, d1=None,d2=None):
         """
@@ -218,10 +250,9 @@ class Qlearning():
         # Define Total number of actions
         self.number_of_actions = 1
         # runQlearning here
-        actions_list, cumul_reward_list, Q_tables = run_qlearning()
-
-        print("Actions: ", actions_list)
-        # print("Cumul_reward: ", cumul_reward_list)
-        # print("Q_tables: ", Q_tables)
+        actions_list, cumul_reward_list, Q_tables, epsilon_values = self.run_qlearning()
+        # print("Actions: ", actions_list)
+        # print("Epsilon:", epsilon_values)
+        return actions_list, cumul_reward_list, Q_tables, epsilon_values
 
 
