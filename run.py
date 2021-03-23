@@ -12,7 +12,7 @@
 import qlearning
 import sys
 
-def writetofile(d1,d2):
+def runTheProgram(d1,d2):
     Qlearning_obj = qlearning.Qlearning(d1,d2)
     Qlearning_obj.getResult()
     actions_list, cumul_reward_list, Q_tables = Qlearning_obj.run_qlearning()
@@ -29,5 +29,5 @@ if __name__ == '__main__':
         print("TRY AGAIN!")
         d1 = 0
         d2 = 0
-    writetofile(d1,d2)
+    runTheProgram(d1,d2)
 
