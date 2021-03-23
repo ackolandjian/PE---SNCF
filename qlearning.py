@@ -9,16 +9,14 @@ Q Learning algorithm
 
 
 # import libraries
-import pandas as pd
 import datetime
 import json
 import csv
 import initialize
 import random
-import numpy as np
 
 class Qlearning():
-    """ This class ... 
+    """ This class will call the initialize.py methods and print the obtained result.
     """
     
     def __init__(self, d1=None, d2=None):
@@ -220,5 +218,10 @@ class Qlearning():
         # Define Total number of actions
         self.number_of_actions = 1
         # runQlearning here
+        actions_list, cumul_reward_list, Q_tables = run_qlearning()
+
+        print("Actions: ", actions_list)
+        # print("Cumul_reward: ", cumul_reward_list)
+        # print("Q_tables: ", Q_tables)
 
 
