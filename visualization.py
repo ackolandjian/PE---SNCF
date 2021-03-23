@@ -7,7 +7,7 @@ import seaborn as sns
 
 
 def visualize(epsilon_values, nb_episodes):
-    x = range(1, nb_episodes+1)
-    y=[epsilon_values[i][-1] for i in range(len(epsilon_values))]
+    x = range(1, len(epsilon_values[0]))
+    y=epsilon_values[0][-1]
     plt.bar(x, y)
     plt.show()

@@ -34,8 +34,8 @@ class Qlearning():
         self.discount_rate = 0.8
         self.epsilon = 0.7
         self.epsilon_min = 0.1
-        self.epsilon_decay = 0.9
-        self.nb_episodes = 10
+        self.epsilon_decay = 0.99
+        self.nb_episodes = 50
         self.initial_delay = 30
         self.Q_previous = 0
         self.count_skip = 0
@@ -251,8 +251,6 @@ class Qlearning():
         self.number_of_actions = 1
         # runQlearning here
         actions_list, cumul_reward_list, Q_tables, epsilon_values = self.run_qlearning()
-        # print("Actions: ", actions_list)
-        # print("Epsilon:", epsilon_values)
         return actions_list, cumul_reward_list, Q_tables, epsilon_values
 
 

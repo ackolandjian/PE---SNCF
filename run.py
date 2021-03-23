@@ -11,12 +11,52 @@
 
 import qlearning
 import sys
-import visualization
+import pandas as pd
+import csv
 
+def clean_lists(action, cumul_reward, qtables, epsilon):
+    """
+    This function removes the episodes where only one action had been taken
+    """
+    for ele in action:
+        if len(ele)==1:
+            index = action.index(ele)
+            action.remove(ele)
+            del qtables[index]
+            del cumul_reward[index]
+            del epsilon[index]
+    return action, cumul_reward, qtables, epsilon
+
+def write_in_files(name, a_list):
+    with open(name, "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(a_list)
+
+def save_action(l, nb_episodes):
+    name_file= "output_files/actions_"+str(nb_episodes)+".csv"
+    write_in_files(name_file, l)
+
+def save_Qtables(l, nb_episodes):
+    name_file= "output_files/Qtables_"+str(nb_episodes)+".csv"
+    write_in_files(name_file, l)
+
+def save_epsilon(l, nb_episodes):
+    name_file= "output_files/epsilon_"+str(nb_episodes)+".csv"
+    write_in_files(name_file, l)
+
+def save_cumul(l, nb_episodes):
+    name_file = "output_files/cumul_"+str(nb_episodes)+".csv"
+    df = pd.DataFrame(l)
+    df.to_csv(name_file, sep=',', index=False)
+    
 def runTheProgram(d1,d2):
     Qlearning_obj = qlearning.Qlearning(d1,d2)
     actions_list, cumul_reward_list, Q_tables, epsilon_values = Qlearning_obj.getResult()
-    # visualization.visualize(epsilon_values, Qlearning_obj.nb_episodes)
+    actions_list, cumul_reward_list, Q_tables, epsilon_values = clean_lists(actions_list, cumul_reward_list, Q_tables, epsilon_values)
+    save_action(actions_list, Qlearning_obj.nb_episodes)
+    save_Qtables(Q_tables, Qlearning_obj.nb_episodes)
+    save_epsilon(epsilon_values, Qlearning_obj.nb_episodes)
+    save_cumul(cumul_reward_list, Qlearning_obj.nb_episodes)
 
 if __name__ == '__main__':
     try:
