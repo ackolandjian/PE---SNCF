@@ -1,10 +1,10 @@
 # Word Frequency Counter
 
-[![](./img/logo.png)](https://www.emerton-data.com)
+[![](./img/logo.png)](https://)
 
 Authors:
  - Anna Christina Kolandjian
- - Emerton data team
+ - Clarisse Pouillery
  
 # 🎯 Goal
 This program counts unique words from an English text file, treating hyphen and apostrophe 
@@ -78,17 +78,11 @@ $ python3 run.py Tempest.txt
 
 ![](./img/expected-output.png)]
 
-# 📙 About Emerton Data
-- Emerton Data is the dedicated Emerton entity for Artificial Intelligence and Advanced Data Analytics activities. Emerton
-Data supports organizations in designing and executing their data & AI transformation. Visit http://www.emerton-data.com/.
-- Emerton is a premier global, mid-size strategy consulting firm with offices in Europe, the Middle East and North America,
-blending strategy consultants and seasoned industry professionals.
-- We develop innovative approaches and tailored solutions to address complex problems and generate impact. We also help corporations design their data strategies to develop a competitive edge and to transform their businesses from topline to bottom line.
+# 📙 About SNCF
+- 
 - 📞 Contact:
-16 Avenue Hoche, 75008 Paris, FRANCE; T: + 33 1 53 75 38 75; contact@emerton-data.com
 
-THANKS FOR CHOOSING US, WE ARE HAPPY TO HELP YOU!
 
 # 📃 License
 
-Licensed under EMERTON DATA DIGITAL, DATA & ARTIFICIAL INTELLIGENCE CONSULTING ©2021. See the license for the details.
+Licensed under SNCF ©2021. See the license for the details.
