@@ -1,13 +1,22 @@
-import initialize
-import qlearning
 import pandas as pd
-import numpy as np
+import csv
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+def find_longest_epsilon_list(n):
+    with open('output_files/epsilon_'+str(n)+".csv", 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        next(csv_reader)
+        for row in csv_reader:
+            print(len(row), row)
 
-def visualize(epsilon_values, nb_episodes):
-    x = range(1, len(epsilon_values[0]))
-    y=epsilon_values[0][-1]
+def visualize(epsilon_values):
+    x = range(1, len(epsilon_values))
+    y=epsilon_values
     plt.bar(x, y)
     plt.show()
+
+def main():
+    find_longest_epsilon_list(100)
+
+main()

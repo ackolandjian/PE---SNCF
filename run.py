@@ -27,8 +27,9 @@ def clean_lists(action, cumul_reward, qtables, epsilon):
             del epsilon[index]
     return action, cumul_reward, qtables, epsilon
 
+# The functions below save the lists returned by run_qlearning
 def write_in_files(name, a_list):
-    with open(name, "w") as f:
+    with open(name, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(a_list)
 
