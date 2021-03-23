@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 
 """
-
+@authors: Anna Christiane and Clarisse
 """
 
-# This contains the class Initialize and the subclass InitializeVariables that is created
-# 
-#
-#
-#
+# This contains the class Initialize. It performs the task of taking the two datetimes passed and initializing
+# the windowHours csv file, and all the other necessary variables.
+# These variables can be returned with their getters.
 
 import csv
-import pandas as pd
 import json
 import datetime
-import numpy as np
 
 class Initialize():
     """This is the base class inherited by the subclass InitializeVariables for 

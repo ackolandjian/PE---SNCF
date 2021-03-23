@@ -1,14 +1,11 @@
+# -*- coding: utf-8 -*-
 """
 Q Learning algorithm
 
 """
 
-# Reinforcement Learning briefly is a paradigm of Learning Process in which a learning agent 
-# learns, overtime, to behave optimally in a certain environment by interacting continuously 
-# in the environment.
-
-# Each timestep, the agent chooses an action, and the environment returns an observation and 
-# a reward.
+# This file contains the Qlearning class which takes two datetimes.
+# The getResult() method will call the other methods and print the cumulated rewards and the Q-table.
 
 
 # import libraries
@@ -76,17 +73,6 @@ class Qlearning():
         self.reward = self.initialize_obj.get_reward()
         self.Q = self.initialize_obj.get_Q()
         self.initial_state = self.initialize_obj.get_initial_state()
-    
-
-    def getResult(self, d1=None,d2=None):
-        """
-        This function is the primary function of the program, it calls the other functions
-        in the right order
-        """
-        self.validate_datetimes(self)
-        self.call_initialize()
-        # Define Total number of actions
-        self.number_of_actions = 1
 
     def get_ind(self, nomCourse, ref):
         df = pd.read_csv(self.windowHours_file)
@@ -115,9 +101,9 @@ class Qlearning():
         df2 = df[df['nomCourse']==train]
         return len(df2)
 
-    def get_reward(self, key):
+    def get_reward(self, station):
         """ This function returns the reward for skipping a station"""
-        return self.reward[key]
+        return self.reward[station]
 
     def reset_function(self, Q, train):
         self.count_skip = 0
@@ -148,7 +134,7 @@ class Qlearning():
 
     def run_qlearning(self):
         """
-        This function run the Q-learning algorithm once the initializations have been done
+        This function runs the Q-learning algorithm once the initializations have been done
         """
         cumul_reward_list, actions_list, Q_tables = [], [], []
 
@@ -221,5 +207,18 @@ class Qlearning():
             Q_tables.append(Q)
 
         return actions_list, cumul_reward_list, Q_tables
+
+    def getResult(self, d1=None,d2=None):
+        """
+        This method is the primary function of the program and does the work of calling the required
+        methods of the class in the correct order to get the cumulated reward and the Q-table.
+        If two datetimes are passed to this class, the first step of this method is to validate the format of 
+        these datetimes.
+        """
+        self.validate_datetimes(self)
+        self.call_initialize()
+        # Define Total number of actions
+        self.number_of_actions = 1
+        # runQlearning here
 
 
