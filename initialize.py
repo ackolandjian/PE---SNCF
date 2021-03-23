@@ -11,6 +11,8 @@
 import csv
 import json
 import datetime
+import pandas as pd
+import numpy as np
 
 class Initialize():
     """This is the base class inherited by the subclass InitializeVariables for 
