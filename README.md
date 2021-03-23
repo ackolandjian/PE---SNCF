@@ -69,7 +69,6 @@ $ python3 run.py 2020-02-13T10:00:00.000Z 2020-02-13T11:30:00.000Z
 ```
 * 🏁 Expected output
 
-/*//#%"""![](./logo.png)#//"""%*/
 
 # 📙 About SNCF
 - 
