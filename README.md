@@ -1,4 +1,4 @@
-# Word Frequency Counter
+# Using Q-learning algorithm for train rescheduling
 
 [![](./img/logo.png)](https://)
 
