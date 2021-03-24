@@ -28,7 +28,12 @@ PE-SNCF-2021
 
 ## Preprocessing
 
-- toJsonData.py: This script converts the data provided to json files and put them in usefulData folder.
+- toJsonData.py: converts the data provided (transport plan & action/regulation) to json files and put them in usefulData folder.
+- remarkable_points_restructured.py: converts the remarkable points to json file.
+- removeElement.py: deletes the unecessary data existing in files lineL.json and lineJ.json and creates new files lineL_preprocessed.json and lineJ_preprocessed.json.
+- get_act_regul_lines.py:
+   - Takes the action/regulation json file and deletes the unecessary data.
+   - Filters the action/regulation file by the data on lines J and L, and creates new json files act_regul_lineJ.json and act_regul_lineL.json respectively.
 - stopRefAndLibelle.py:
    - Uses LineJ_preprocessed.json to create a lineJ_StopRefAndLibelle.csv file in usefulData, that gathers the identifiers (ref) of the stations without taking into consideration the crossing points.
    - Calls the RemarkablePoints.json in usefulData and finds the name of each station existing in lineJ_StopRefAndLibelle.csv, and adds the name next to the identifier. So, in the end, lineJ_StopRefAndLibelle.csv contains the station identifier and its name.
