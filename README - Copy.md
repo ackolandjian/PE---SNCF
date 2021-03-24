@@ -30,7 +30,9 @@ PE-SNCF-2021
 
 - toJsonData.py: converts the data provided (transport plan & action/regulation) to json files and put them in usefulData folder.
 - remarkable_points_restructured.py: converts the remarkable points to json file.
+- get_lines.py: takes the original transport plan and gathers the data on lines J and L, and saves them in two separate files lineJ.json and lineL.json respectively.
 - removeElement.py: deletes the unecessary data existing in files lineL.json and lineJ.json and creates new files lineL_preprocessed.json and lineJ_preprocessed.json.
+- get_times.py: 
 - get_act_regul_lines.py:
    - Takes the action/regulation json file and deletes the unecessary data.
    - Filters the action/regulation file by the data on lines J and L, and creates new json files act_regul_lineJ.json and act_regul_lineL.json respectively.
@@ -38,12 +40,7 @@ PE-SNCF-2021
    - Uses LineJ_preprocessed.json to create a lineJ_StopRefAndLibelle.csv file in usefulData, that gathers the identifiers (ref) of the stations without taking into consideration the crossing points.
    - Calls the RemarkablePoints.json in usefulData and finds the name of each station existing in lineJ_StopRefAndLibelle.csv, and adds the name next to the identifier. So, in the end, lineJ_StopRefAndLibelle.csv contains the station identifier and its name.
 - stopRefAndLibelle_reduced.py: Removes all of the rows in lineJ_StopRefAndLibelle.csv containing station identifiers that do not end with "BV" or "00".
-- initialize.py:
-   - It takes the two datetimes and creates a file windowHours containing all information about trains, stations, time slots.
-   - It produces a reward dictionary with stations as keys and rewards as values.
-   - It initializes the Q-table as an empty numpy array.
-- visualization.py:
-   - It visualizes the minimum epsilon obtained for each episode. 
+- extract_final_pdt.py:
 
 ## Heuristics
 
