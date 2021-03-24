@@ -58,6 +58,7 @@ def runTheProgram(d1,d2):
     save_Qtables(Q_tables, Qlearning_obj.nb_episodes)
     save_epsilon(epsilon_values, Qlearning_obj.nb_episodes)
     save_cumul(cumul_reward_list, Qlearning_obj.nb_episodes)
+    visualization.visualize(epsilon_values, Qlearning_obj.nb_episodes)
 
 if __name__ == '__main__':
     try:

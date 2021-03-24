@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import csv
 import matplotlib.pyplot as plt
-import seaborn as sns
+#import seaborn as sns
 
 def find_longest_epsilon_list(n):
     with open('output_files/epsilon_'+str(n)+".csv", 'r') as csv_file:
