@@ -8,18 +8,11 @@ Authors:
  
 # 🎯 Goal
 This program uses the Q-learning approach for train rescheduling. 
-At the end, it prints the cumulated rewards and the obtained Q-table.
+In the end, it prints the cumulated rewards and the obtained Q-table.
 
 # 📝 Description 
 It takes the two datetimes passed by the user and runs the Q-learning
 algorithm during the given time window.
-
-
-The output is in the format:
-
-```bash
-bla bla bla
-```
 
 # 💻 Software Development
 ### File Hierarchy
@@ -54,9 +47,6 @@ Qlearning
 - visualization.py:
    - It visualizes the minimum epsilon obtained for each episode. 
 
-# ⚠️ Note to Users
-
-
 # ❓ How To Use
 
 * 🏃 Execute run.py
@@ -67,13 +57,6 @@ In our case:
 ```bash
 $ python3 run.py 2020-02-13T10:00:00.000Z 2020-02-13T11:30:00.000Z
 ```
-* 🏁 Expected output
-
-
-# 📙 About SNCF
-- 
-- 📞 Contact:
-
 
 # 📃 License
 
