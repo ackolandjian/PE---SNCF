@@ -27,13 +27,12 @@ PE-SNCF-2021
 ### Development
 
 ## Preprocessing
-- run.py: 
-   - Takes the input datetimes, if they were given by the user in the command, else asks for two proper datetimes.
-   - Calls the primary method of initialize.py: getResult() 
-- qlearning.py:
-   - Once its primary method getResult() is called, it validates the datetimes (if they're not valid, it asks for new ones).
-   - Calls the initialize.py method set_variables() to initialize all variables and parameters.
-   - It runs the algorithm.
+
+- toJsonData.py: This script converts the data provided to json files and put them in usefulData folder.
+- stopRefAndLibelle.py:
+   - Uses LineJ_preprocessed.json to create a lineJ_StopRefAndLibelle.csv file in usefulData, that gathers the identifiers (ref) of the stations without taking into consideration the crossing points.
+   - Calls the RemarkablePoints.json in usefulData and finds the name of each station existing in lineJ_StopRefAndLibelle.csv, and adds the name next to the identifier. So, in the end, lineJ_StopRefAndLibelle.csv contains the station identifier and its name.
+- stopRefAndLibelle_reduced.py: Removes all of the rows in lineJ_StopRefAndLibelle.csv containing station identifiers that do not end with "BV" or "00".
 - initialize.py:
    - It takes the two datetimes and creates a file windowHours containing all information about trains, stations, time slots.
    - It produces a reward dictionary with stations as keys and rewards as values.
